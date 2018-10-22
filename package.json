@@ -1,0 +1,28 @@
+{
+  "name": "booklibrary",
+  "version": "1.0.0",
+  "description": "Angular 1.5",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DeepikaGopala/Book-Library.git"
+  },
+  "keywords": [
+    "Angular",
+    "1.5",
+    "services",
+    "directives."
+  ],
+  "author": "Deepika Gopala",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DeepikaGopala/Book-Library/issues"
+  },
+  "homepage": "https://github.com/DeepikaGopala/Book-Library#readme",
+  "dependencies": {
+    "webpack": "^4.22.0"
+  }
+}

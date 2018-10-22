@@ -1,3 +1,4 @@
+console.log("HELLO");
 var library = angular.module("BookLibrary",['ui.router','ui.bootstrap']);
 library.service("dataservice",function(){
 	return {
@@ -35,7 +36,7 @@ library.config(function($stateProvider,$locationProvider){
 	//$locationProvider.html5Mode(true);
 	$locationProvider.hashPrefix('');
 	$stateProvider.state("root",{
-		url:"/",
+		url:"",
 		template:'<div class="row">'+
 			'<div class="col-sm-12 pull-right">' +
 			'	<a ui-sref="searchbook">Serach Books</a>' +
@@ -115,31 +116,7 @@ library.directive("individualShelf",function(){
 			booksdetails:"=booksdetails",
 			parentindex :"=parentindex"
 		},
-		template:'	<div class="row panel">'+
-			'<div class="col-sm-12 header">'+
-				'<h1>{{librarytype.name}}</h1>'+
-			'</div>'+
-			'<div class="col-sm-12 panel-content">'+
-				'<div ng-repeat="eachbook in categorybookdetails" class="col-sm-4 col-md-4 panel-content-item">'+
-					'<figure>'+
-						'<img ng-src="{{eachbook.img}}" alt="bookthumbnail"/>'+
-						'<div class="dropdown" uib-dropdown  dropdown-append-to-body="true">'+
-							'<a class="MoveBook" id="move-to" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false" >'+
-									'<i class="fas fa-caret-down"></i>'+
-							'</a>'+
-							'<ul  class="list-group list-item dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">'+
-								'<li disabled="disabled"><a>Move To</a></li>{{bookshelfs}}'+
-								'<li ng-repeat="eachshelf in bookshelfs" ng-class="{{parentindex == eachshelf.id?ticked:noticked}}">{{eachshelf}}'+
-								'	<a ui-sref="{{eachshelf[$index].state}}">{{eachshelf[$index].name}}</a>'+
-								'</li>	'+
-								'<li><a>None</a></li>		'+
-							'</ul>'+
-						'</div>'+
-						'<figcaption>{{eachbook.bookname}}<br/>{{eachbook.writer}}</figcaption>'+
-					'</figure>'+
-				'</div>'+
-			'</div>'+
-		'</div>',
+		templateUrl:'individualShelf.html',
 		link:function(scope,element,attrs){
 				 for(var i in scope.booksdetails){
 			        if (scope.librarytype.name == scope.booksdetails[i].name) {
