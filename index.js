@@ -2,13 +2,7 @@ console.log("HELLO");
 var library = angular.module("BookLibrary",['ui.router','ui.bootstrap']);
 library.service("dataservice",function(){
 	return {
-		getshelfdetails:function(){
-			 return [{ id:"1",name:"Currently Reading",state:"currentlyReading"},
-					{ id:"2",name:"Want to Read",state:"wanttoread"},
-					{ id:"3",name:"Read",state:"read"}]
-		} ,
-
-		getbooksdetails : function (){
+		getBooksLibrary : function (){
 			return [	
 						{	name:"Currently Reading",
 							booklist:[
@@ -34,40 +28,50 @@ library.service("dataservice",function(){
 })
 library.config(function($stateProvider,$locationProvider){
 	//$locationProvider.html5Mode(true);
+	 //$urlRouterProvider.otherwise('/')
 	$locationProvider.hashPrefix('');
 	$stateProvider.state("root",{
 		url:"",
-		template:'<div class="row">'+
-			'<div class="col-sm-12 pull-right">' +
-			'	<a ui-sref="searchbook">Serach Books</a>' +
-			'</div>' +
-		'</div>' +
-		'<div class="row">' +
-			'<div class="col-sm-offset-4 col-sm-4">' +
-				'<ul  class="list-group list-item">' +
-					'<li ng-repeat="eachshelf in bookshelfs">' +
-						'<a ui-sref="{{eachshelf.state}}">{{eachshelf.name}}</a>' +
-					'</li>		' +
-				'</ul>' +
-			'</div>' +
-		'</div>' +
-		'<div ng-repeat="shelf in bookshelfs">' +
-			'<individual-shelf librarytype="shelf" booksdetails = "booklist" parentIndex = $index+1></individual-shelf>' +
-		'</div>',
-		 controller:"MainController"
+		views:{
+			'searchContent@':{
+				template:'<div class="row">'+
+						 '<div class="container" ng-controller="MainController">'+
+							'<div class="row pull-right">'+
+								'<div class="col-sm-12 pull-right">'+
+									'<a ui-sref="searchbook">Search Books</a>'+
+								'</div>'+
+							'</div>'+
+							'<!--<div class="row">'+
+								'<div class="col-sm-offset-4 col-sm-4">'+
+									'<ul  class="list-group list-item">'+
+										'<li ng-repeat="eachshelf in booklibrary">'+
+											'<div>{{eachshelf.name}}</div>'+
+										'</li>		'+
+									'</ul>'+
+								'</div>'+
+							'</div>-->'+
+							'<div ng-repeat="eachbookshelf in booklibrary">'+
+								'<individual-shelf eachbookshelf="eachbookshelf" booklibrary="booklibrary"  parentIndex=$index+1></individual-shelf>'+
+							'</div>',
+				 controller:"MainController"
+			}
+		}
+		
 	})
 	$stateProvider.state("searchbook",{
 	   url:"/search",
-	   template:'<div class="row header">' +
+	   views:{
+	   	  	  'searchContent@':{
+	   	  	  	 template:'<div class="row header">' +
 					'<div class="col-md-12">' +
 						'<a ui-sref="/"><i class="fas fa-arrow-left"></i></a>' +
 						'<input type="textbox" ng-model="searchbook.$" class="form-control" />' +
 					'</div>' +
 				'</div>' +
 				'<div class="col-sm-12 panel-content">'+
-				'<div ng-repeat="eachbook in booklist | filter:searchbook" class="col-sm-4 col-md-4 panel-content-item">'+
+				'<div ng-repeat="eachbook in booklibrary | filter:searchbook" class="col-sm-4 col-md-4 panel-content-item">'+
 					'<figure>'+
-						'<img ng-src="{{eachbook.booklist[$index].img}}" alt="bookthumbnail"/>'+
+						'<img ng-src="{{eachbook.booklibrary[$index].img}}" alt="bookthumbnail"/>'+
 						'<div class="dropdown" uib-dropdown>'+
 							'<a class="MoveBook" id="move-to" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">'+
 									'<i class="fas fa-caret-down"></i>'+
@@ -84,46 +88,42 @@ library.config(function($stateProvider,$locationProvider){
 					'</figure>'+
 				'</div>'+
 			'</div>',
-	   controller:"SearchBookController"
+	  		 controller:"SearchBookController"
+	  		}
+	   }
+
 	})
 });
 
 
 library.controller("MainController",function($scope,dataservice){
-		$scope.bookshelfs  = dataservice.getshelfdetails();
-		$scope.booklist  = dataservice.getbooksdetails();
+		$scope.booklibrary  = dataservice.getBooksLibrary();
 		$scope.status = {
 		    isopen: false
 		  };
-
-	  $scope.onClick = function($event) {
-	    // $event.preventDefault();
-	    // $event.stopPropagation();
-	    $scope.status.isopen = !$scope.status.isopen;
-	  };
 });
 
 library.controller("SearchBookController",function($scope,dataservice){
-	 $scope.booklist  = dataservice.getbooksdetails();
-
+	 $scope.booklibrary  = dataservice.getBooksLibrary();
 });
 
 library.directive("individualShelf",function(){
 	return{
 		restrict:"E",
 		scope:{
-			librarytype :"=librarytype",
-			booksdetails:"=booksdetails",
-			parentindex :"=parentindex"
+			eachbookshelf :"=",
+			booklibrary:"=",
+			parentindex :"="
 		},
 		templateUrl:'individualShelf.html',
 		link:function(scope,element,attrs){
-				 for(var i in scope.booksdetails){
-			        if (scope.librarytype.name == scope.booksdetails[i].name) {
-			          scope.categorybookdetails = scope.booksdetails[i].booklist;
-			          console.log(scope.categorybookdetails)
-			          }
-			        }
+				 scope.bookshelfs = [];
+				 for(var i in scope.booklibrary){
+			        if (scope.eachbookshelf.name == scope.booklibrary[i].name) {
+			          scope.categorybookdetails = scope.booklibrary[i].booklist;
+					}
+			       scope.bookshelfs.push(scope.booklibrary[i].name);
+			     }
 		}
 	}
 })

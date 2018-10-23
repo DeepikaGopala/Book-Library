@@ -1,6 +1,6 @@
 <div class="row panel">
 			<div class="col-sm-12 header">
-				<h1>{{librarytype.name}}</h1>
+				<h1>{{eachbookshelf.name}}</h1>
 			</div>
 			<div class="col-sm-12 panel-content">
 				<div ng-repeat="eachbook in categorybookdetails" class="col-sm-4 col-md-4 panel-content-item">
@@ -11,14 +11,14 @@
 									<i class="fas fa-caret-down"></i>
 							</a>
 							<ul  class="list-group list-item dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
-								<li disabled="disabled"><a>Move To</a></li>{bookshelfs}}'
-								<li ng-repeat="eachshelf in bookshelfs" ng-class="{{parentindex == eachshelf.id?ticked:noticked}}">{eachshelf}}'
+								<li disabled="disabled"><a>Move To</a></li>
+								<li ng-repeat="eachshelf in bookshelfs" ng-class="{{parentindex == eachshelf.id?ticked:noticked}}">{{eachshelf}}
 									<a ui-sref="{{eachshelf[$index].state}}">{{eachshelf[$index].name}}</a>
 								</li>	
 								<li><a>None</a></li>	
 							</ul>
 						</div>
-						'<figcaption>{{eachbook.bookname}}<br/>{{eachbook.writer}}</figcaption>'+
+						<figcaption>{{eachbook.bookname}}<br/>{{eachbook.writer}}</figcaption>
 					</figure>
 				</div>
 			</div>
