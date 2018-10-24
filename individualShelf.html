@@ -12,8 +12,8 @@
 							</a>
 							<ul  class="list-group list-item dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
 								<li disabled="disabled"><a>Move To</a></li>
-								<li ng-repeat="eachshelf in bookshelfs" ng-class="{{parentindex == eachshelf.id?ticked:noticked}}">{{eachshelf}}
-									<a ui-sref="{{eachshelf[$index].state}}">{{eachshelf[$index].name}}</a>
+								<li ng-repeat="eachshelf in bookshelfs" ng-class="{'ticked':eachbookshelf.name == eachshelf}">
+									<a ui-sref="{{eachshelf}}">{{eachshelf}}</a>
 								</li>	
 								<li><a>None</a></li>	
 							</ul>

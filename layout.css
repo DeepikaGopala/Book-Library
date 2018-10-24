@@ -16,13 +16,14 @@
 }
 .panel-content-item figure .dropdown{
 	    position: absolute;
-    right: 80px;
-    bottom: 40px;
+    right: 100px;
+    bottom: 60px;
 }
 
 .panel-content-item figure img{
     width: 150px;
     height: 200px;
+    margin-bottom:20px;
 
 }
 .MoveBook{
@@ -37,4 +38,13 @@
 }
 .dropdown-toggle::after{
 	 display:none;
+}
+ul.dropdown-menu li a{
+	padding: 5px 30px;
+}
+ul.dropdown-menu li.ticked a::before{
+    font-family: 'Glyphicons Halflings';
+    content:"\e013";
+    position: absolute;
+    left: 5px;
 }
